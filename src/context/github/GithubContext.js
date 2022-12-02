@@ -14,23 +14,31 @@ export const GithubProvider = ({ children }) => {
   /* --> Reducer <-- */
   const initialState = {
     users: [],
-    loading: true,
+    loading: false,
   };
 
   /* --> Reducer <-- */
   const [state, dispatch] = useReducer(githubReducer, initialState);
 
-  /* The token was giving an error */
-  const fetchUsers = async () => {
+  // Get search results
+  const searchUsers = async (text) => {
+    /* Set the loading to true before make the request / it's get back to false in the Github Reducer */
+    setLoading();
+
+    const params = new URLSearchParams({
+      q: text,
+    });
+
+    /* The token was giving an error */
     const response = await fetch(
-      `${GITHUB_URL}/users` /*  {
+      `${GITHUB_URL}/search/users?${params}` /*  {
       headers: {
-        Authorization: `token ${GITHUB_TOKEN}`,
+        Authorization: `token ${GITHUB_TOKEN}`, 
       },
     } */
     );
 
-    const data = await response.json();
+    const { items } = await response.json();
 
     /* --> useState <-- */
     /* setUsers(data);
@@ -39,16 +47,30 @@ export const GithubProvider = ({ children }) => {
     /* --> Reducer <-- */
     dispatch({
       type: 'GET_USERS', //All uppercase
-      payload: data, //Data we get from the API
+      payload: items, //Data we get from the API
     });
   };
+
+  // Clear users from state
+  const clearUsers = () => {
+    dispatch({
+      type: 'CLEAR_USERS',
+    });
+  };
+
+  // Set loading
+  const setLoading = () =>
+    dispatch({
+      type: 'SET_LOADING', //All uppercase
+    });
 
   return (
     <GithubContext.Provider
       value={{
         users: state.users,
         loading: state.loading,
-        fetchUsers,
+        searchUsers,
+        clearUsers,
       }}
       /*useState --> value={{users, loading, fetchUsers}} */
     >

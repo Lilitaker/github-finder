@@ -7,6 +7,16 @@ const githubReducer = (state, action) => {
         users: action.payload, //Fill the users array with the users from the API
         loading: false,
       };
+    case 'SET_LOADING':
+      return {
+        ...state, //Bring all what it's in the state
+        loading: true,
+      };
+    case 'CLEAR_USERS':
+      return {
+        ...state,
+        users: [],
+      };
     default:
       //If there isn't an action, we don't change the state. Return the current state
       return state;
