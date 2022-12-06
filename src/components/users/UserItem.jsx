@@ -19,7 +19,7 @@ const UserItem = ({ user: { login, avatar_url } }) => {
           <h2 className='car-title'>{login}</h2>
           <Link
             className='text-base-content text-opacity-40'
-            to={`/users/${login}`}
+            to={`/user/${login}`}
           >
             Visit Profile
           </Link>

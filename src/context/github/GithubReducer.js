@@ -7,6 +7,12 @@ const githubReducer = (state, action) => {
         users: action.payload, //Fill the users array with the users from the API
         loading: false,
       };
+    case 'GET_USER':
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+      };
     case 'SET_LOADING':
       return {
         ...state, //Bring all what it's in the state
