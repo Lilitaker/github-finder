@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-/* Other */
 import { FaHome } from 'react-icons/fa';
 
 const NotFound = () => {
